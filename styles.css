@@ -1,0 +1,12 @@
+/* Grove & Stone Design System — Global Entry Point
+   ─────────────────────────────────────────────────
+   Consumers: link this single file. Everything you
+   need (fonts, tokens, base reset) lives here via
+   the imports below. Do NOT add inline rules here.
+*/
+
+@import './tokens/fonts.css';
+@import './tokens/colors.css';
+@import './tokens/typography.css';
+@import './tokens/spacing.css';
+@import './tokens/effects.css';

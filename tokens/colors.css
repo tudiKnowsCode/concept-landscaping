@@ -1,0 +1,80 @@
+/* Grove & Stone — Color Tokens */
+
+:root {
+  /* ── Green Scale ─────────────────────────────── */
+  --green-950: #060f08;
+  --green-900: #0d1f11;
+  --green-800: #1a3a21;
+  --green-700: #235430;
+  --green-600: #2d6b3c;
+  --green-500: #388a4e;
+  --green-400: #50a867;
+  --green-300: #7dc490;
+  --green-200: #aed9ba;
+  --green-100: #d5eddb;
+  --green-50:  #edf8f1;
+
+  /* ── Amber / Gold Scale ───────────────────────── */
+  --amber-950: #3d1e04;
+  --amber-900: #6b3a0a;
+  --amber-800: #8b500f;
+  --amber-700: #a86818;
+  --amber-600: #be8028;
+  --amber-500: #d4a04c;
+  --amber-400: #e0bc72;
+  --amber-300: #ecd49c;
+  --amber-200: #f5e8c8;
+  --amber-100: #faf3e6;
+  --amber-50:  #fdfaf3;
+
+  /* ── Stone / Warm Neutral Scale ──────────────── */
+  --stone-950: #0e0d0b;
+  --stone-900: #1c1b18;
+  --stone-800: #2e2d29;
+  --stone-700: #47463f;
+  --stone-600: #65645a;
+  --stone-500: #878578;
+  --stone-400: #aaa99b;
+  --stone-300: #c8c6bb;
+  --stone-200: #deddda;
+  --stone-100: #efeeeb;
+  --stone-50:  #f8f7f4;
+  --stone-25:  #fcfbf9;
+
+  /* ── Semantic Colour Aliases ─────────────────── */
+  --color-brand:           var(--green-800);
+  --color-brand-dark:      var(--green-900);
+  --color-brand-light:     var(--green-600);
+  --color-brand-subtle:    var(--green-50);
+  --color-brand-muted:     var(--green-100);
+
+  --color-accent:          var(--amber-500);
+  --color-accent-dark:     var(--amber-700);
+  --color-accent-light:    var(--amber-200);
+  --color-accent-subtle:   var(--amber-50);
+
+  --color-bg:              var(--stone-50);
+  --color-bg-alt:          var(--stone-100);
+  --color-bg-dark:         var(--green-950);
+  --color-bg-brand:        var(--green-800);
+
+  --color-surface:         #ffffff;
+  --color-surface-raised:  #ffffff;
+  --color-surface-muted:   var(--stone-100);
+  --color-surface-inverse: var(--green-800);
+
+  --color-text-primary:    var(--stone-900);
+  --color-text-secondary:  var(--stone-600);
+  --color-text-muted:      var(--stone-400);
+  --color-text-inverse:    var(--stone-50);
+  --color-text-brand:      var(--green-800);
+  --color-text-accent:     var(--amber-700);
+
+  --color-border:          var(--stone-200);
+  --color-border-dark:     var(--stone-300);
+  --color-border-brand:    var(--green-200);
+
+  --color-focus:           var(--green-600);
+  --color-error:           #c0392b;
+  --color-success:         var(--green-600);
+}

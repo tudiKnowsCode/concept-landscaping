@@ -1,0 +1,104 @@
+/* Grove & Stone – Responsive layout
+   Uses !important throughout to override JSX inline styles at breakpoints */
+
+/* ── Hamburger (hidden on desktop) ─────────────────── */
+.gs-hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 2px;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+.gs-hamburger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  border-radius: 2px;
+  transition: transform 0.25s ease, opacity 0.2s ease;
+}
+.gs-mobile-menu { display: none; }
+
+/* ── Tablet ≤900px ──────────────────────────────────── */
+@media (max-width: 900px) {
+  .gs-grid-4       { grid-template-columns: repeat(2, 1fr) !important; }
+  .gs-grid-footer  { grid-template-columns: 1fr 1fr !important; gap: 32px !important; }
+  .gs-grid-3       { grid-template-columns: repeat(2, 1fr) !important; gap: 16px !important; }
+}
+
+/* ── Mobile ≤768px ──────────────────────────────────── */
+@media (max-width: 768px) {
+
+  /* Nav */
+  .gs-nav          { padding: 0 20px !important; }
+  .gs-nav-links    { display: none !important; }
+  .gs-nav-cta      { display: none !important; }
+  .gs-hamburger    { display: flex !important; }
+
+  .gs-mobile-menu {
+    display: flex !important;
+    flex-direction: column;
+    position: fixed;
+    top: 72px; left: 0; right: 0; bottom: 0;
+    background: rgba(255,255,255,0.98);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 99;
+    padding: 20px 20px 40px;
+    gap: 0;
+    overflow-y: auto;
+    border-top: 1px solid var(--stone-100);
+  }
+
+  /* Section padding */
+  .gs-section            { padding: 60px 20px !important; }
+  .gs-footer             { padding: 48px 20px 28px !important; }
+  .gs-page-header-inner  { padding: 0 20px !important; }
+
+  /* Grids → 1 column */
+  .gs-grid-2 { grid-template-columns: 1fr !important; gap: 36px !important; }
+  .gs-grid-3 { grid-template-columns: 1fr !important; gap: 16px !important; }
+  .gs-grid-4 { grid-template-columns: 1fr !important; gap: 16px !important; }
+  .gs-grid-footer { grid-template-columns: 1fr !important; gap: 24px !important; }
+
+  /* Stats */
+  .gs-stats-grid { grid-template-columns: 1fr 1fr !important; }
+  .gs-stat-cell  { border-right: none !important; padding: 32px 0 !important; }
+
+  /* Portfolio preview mosaic → stack */
+  .gs-portfolio-preview {
+    grid-template-columns: 1fr !important;
+    grid-template-rows: 220px 220px 220px !important;
+  }
+  .gs-portfolio-span { grid-row: auto !important; }
+
+  /* Process steps → 2-col */
+  .gs-process-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 32px !important; }
+  .gs-process-line { display: none !important; }
+
+  /* Service alternating rows */
+  .gs-svc-row { grid-template-columns: 1fr !important; direction: ltr !important; gap: 28px !important; }
+
+  /* Hero */
+  .gs-hero-content { padding: 0 24px !important; }
+  .gs-hero-btns    { flex-direction: column !important; align-items: flex-start !important; gap: 12px !important; }
+
+  /* Section headers with space-between → stack */
+  .gs-section-header { flex-direction: column !important; align-items: flex-start !important; gap: 16px !important; }
+
+  /* CTA contact info row → stack */
+  .gs-cta-meta { flex-direction: column !important; align-items: center !important; gap: 12px !important; }
+
+  /* About page photo collage */
+  .gs-about-photos { height: 300px !important; }
+}
+
+/* ── Small mobile ≤480px ────────────────────────────── */
+@media (max-width: 480px) {
+  .gs-process-grid { grid-template-columns: 1fr !important; }
+  .gs-stats-grid   { grid-template-columns: 1fr !important; }
+}

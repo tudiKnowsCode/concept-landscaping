@@ -1,0 +1,14 @@
+<svg viewBox="0 0 220 60" xmlns="http://www.w3.org/2000/svg" fill="none">
+  <g transform="translate(4,4)">
+    <path d="M25 2 C25 2 8 14 8 30 C8 40 15 50 25 50 C35 50 42 40 42 30 C42 14 25 2 25 2 Z" stroke="#ffffff" stroke-width="1.8" stroke-linejoin="round"></path>
+    <line x1="25" y1="50" x2="25" y2="56" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round"></line>
+    <line x1="25" y1="8" x2="25" y2="50" stroke="#ffffff" stroke-width="1" opacity="0.45"></line>
+    <path d="M25 22 Q17 26 14 32" stroke="#e0bc72" stroke-width="1.2" stroke-linecap="round" opacity="0.9"></path>
+    <path d="M25 30 Q18 33 16 39" stroke="#e0bc72" stroke-width="1" stroke-linecap="round" opacity="0.7"></path>
+    <path d="M25 22 Q33 26 36 32" stroke="#e0bc72" stroke-width="1.2" stroke-linecap="round" opacity="0.9"></path>
+    <path d="M25 30 Q32 33 34 39" stroke="#e0bc72" stroke-width="1" stroke-linecap="round" opacity="0.7"></path>
+  </g>
+  <text x="60" y="26" font-family="Georgia,'Times New Roman',serif" font-size="20" font-weight="700" letter-spacing="3" fill="#ffffff">GROVE</text>
+  <text x="60" y="46" font-family="Georgia,'Times New Roman',serif" font-size="12" font-weight="400" letter-spacing="5" fill="#e0bc72">&amp; STONE</text>
+  <line x1="60" y1="52" x2="215" y2="52" stroke="#e0bc72" stroke-width="0.5" opacity="0.5"></line>
+</svg>
