@@ -2,32 +2,16 @@
 const { useState: useStateP, useRef: useRefP, useEffect: useEffectP } = React;
 
 const ALL_PROJECTS = [
-  { id:1,  folder:'westport-estate',       title:'Westport Estate',        cat:'Design',      town:'Westport, CT',  year:'2024', desc:'A 2.4-acre property redesign featuring meadow plantings, bluestone terracing, and a naturalistic swimming pond.' },
-  { id:6,  folder:'fairfield-modern-home', title:'Fairfield Modern Home',  cat:'Design',      town:'Fairfield, CT', year:'2022', desc:'Contemporary planting scheme for a new-build property with native plantings and minimalist hardscape.' },
-  { id:3,  folder:'darien-garden-renewal', title:'Darien Garden Renewal',  cat:'Maintenance', town:'Darien, CT',    year:'2023', desc:'Five-year neglected garden restored through phased planting and structural pruning over two seasons.' },
+  { id:1, folder:'westport-estate', title:'Westport Estate', cat:'Design', town:'Westport, CT', year:'2024',
+    desc:'A 2.4-acre property redesign featuring meadow plantings, bluestone terracing, and a naturalistic swimming pond.',
+    images:['/images/portfolio/westport-estate/preview.jpg','/images/portfolio/westport-estate/1.jpg','/images/portfolio/westport-estate/2.jpg','/images/portfolio/westport-estate/3.jpg','/images/portfolio/westport-estate/4.jpg','/images/portfolio/westport-estate/5.jpg','/images/portfolio/westport-estate/6.jpg'] },
+  { id:6, folder:'fairfield-modern-home', title:'Fairfield Modern Home', cat:'Design', town:'Fairfield, CT', year:'2022',
+    desc:'Contemporary planting scheme for a new-build property with native plantings and minimalist hardscape.',
+    images:['/images/portfolio/fairfield-modern-home/preview.jpg','/images/portfolio/fairfield-modern-home/1.jpg','/images/portfolio/fairfield-modern-home/2.jpg','/images/portfolio/fairfield-modern-home/3.jpg','/images/portfolio/fairfield-modern-home/4.jpg','/images/portfolio/fairfield-modern-home/5.jpg'] },
+  { id:3, folder:'darien-garden-renewal', title:'Darien Garden Renewal', cat:'Maintenance', town:'Darien, CT', year:'2023',
+    desc:'Five-year neglected garden restored through phased planting and structural pruning over two seasons.',
+    images:['/images/portfolio/darien-garden-renewal/preview.jpg','/images/portfolio/darien-garden-renewal/1.jpg','/images/portfolio/darien-garden-renewal/2.jpg','/images/portfolio/darien-garden-renewal/3.jpg','/images/portfolio/darien-garden-renewal/4.jpg','/images/portfolio/darien-garden-renewal/5.jpg','/images/portfolio/darien-garden-renewal/6.jpg'] },
 ];
-
-
-/* Fetch all images from a portfolio folder, preview.jpg always first */
-function loadGallery(folder) {
-  return fetch(`/images/portfolio/${folder}/`)
-    .then(r => { if (!r.ok) throw 0; return r.text(); })
-    .then(html => {
-      const doc = new DOMParser().parseFromString(html, 'text/html');
-      const imgs = [...doc.querySelectorAll('a[href]')]
-        .map(a => a.getAttribute('href'))
-        .filter(h => /\.(jpe?g|png|webp|gif)$/i.test(h))
-        .map(h => `/images/portfolio/${folder}/${h.replace(/^\//, '')}`);
-      imgs.sort((a, b) => {
-        const an = a.split('/').pop().toLowerCase();
-        const bn = b.split('/').pop().toLowerCase();
-        if (an === 'preview.jpg' || an === 'preview.jpeg') return -1;
-        if (bn === 'preview.jpg' || bn === 'preview.jpeg') return 1;
-        return an.localeCompare(bn);
-      });
-      return imgs;
-    });
-}
 
 function PortfolioCard({ p, onClick }) {
   const [hov, setHov] = useStateP(false);
@@ -50,19 +34,8 @@ function PortfolioCard({ p, onClick }) {
 }
 
 function Lightbox({ project, onClose, onNav }) {
-  const [gallery, setGallery] = useStateP([`/images/portfolio/${project.folder}/preview.jpg`]);
+  const gallery = project.images;
   const [idx, setIdx] = useStateP(0);
-  const [loading, setLoading] = useStateP(true);
-
-  useEffectP(() => {
-    setLoading(true);
-    loadGallery(project.folder)
-      .then(imgs => {
-        if (imgs.length > 0) setGallery(imgs);
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
-  }, [project.folder]);
 
   // Keyboard navigation
   useEffectP(() => {
