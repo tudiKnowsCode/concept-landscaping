@@ -1,5 +1,5 @@
 /* Grove & Stone — Home Page */
-const { useState, useEffect, useRef, useCallback } = React;
+const { useState, useEffect, useRef } = React;
 
 /* ── Utilities ─────────────────────────────────────── */
 function useInView(ref, threshold = 0.12) {
@@ -87,83 +87,52 @@ const STEPS = [
 ];
 
 /* ── Hero ──────────────────────────────────────────── */
-const FALLBACK_VIDEOS = [
-  'https://videos.pexels.com/video-files/36302985/15395277_2560_1440_25fps.mp4',
-  'https://videos.pexels.com/video-files/31641546/13480506_1920_1080_30fps.mp4',
-  'https://videos.pexels.com/video-files/32501841/13859218_1920_1080_30fps.mp4',
-];
-
-function useVideoPlaylist() {
-  const playlist = useRef(FALLBACK_VIDEOS);
-  const [front, setFront] = useState(0);          // which slot (0 or 1) is on top
-  const slotVidIdx = useRef([0, 1]);               // video index loaded in each slot
-  const refs = [useRef(null), useRef(null)];
-  const started = useRef(false);
-
-  const startWith = useCallback((videos) => {
-    if (started.current) return;
-    started.current = true;
-    playlist.current = videos;
-    slotVidIdx.current = [0, videos.length > 1 ? 1 : 0];
-
-    const v0 = refs[0].current;
-    const v1 = refs[1].current;
-    if (v0) { v0.src = videos[0]; v0.play().catch(() => {}); }
-    if (v1 && videos.length > 1) { v1.src = videos[1]; }   // preload, don't play yet
-  }, []);
-
-  useEffect(() => {
-    fetch('/videos/')
-      .then(r => { if (!r.ok) throw 0; return r.text(); })
-      .then(html => {
-        const doc = new DOMParser().parseFromString(html, 'text/html');
-        const files = [...doc.querySelectorAll('a[href]')]
-          .map(a => a.getAttribute('href'))
-          .filter(h => /\.(mp4|webm|mov)$/i.test(h))
-          .map(h => '/videos/' + h.replace(/^\//, ''));
-        startWith(files.length > 0 ? files : FALLBACK_VIDEOS);
-      })
-      .catch(() => startWith(FALLBACK_VIDEOS));
-  }, []);
-
-  const onEnded = useCallback((slot) => {
-    const vl = playlist.current;
-
-    // Single video: just replay the same slot, no crossfade needed
-    if (vl.length <= 1) {
-      refs[slot].current?.play().catch(() => {});
-      return;
-    }
-
-    setFront(f => {
-      if (slot !== f) return f;          // only the front video's end matters
-      const newFront = 1 - f;
-      refs[newFront].current?.play().catch(() => {});
-
-      // Preload next-next into the slot that's now going to the back
-      const nextNext = (slotVidIdx.current[newFront] + 1) % vl.length;
-      slotVidIdx.current[f] = nextNext;
-      setTimeout(() => {
-        if (refs[f].current) refs[f].current.src = vl[nextNext];
-      }, 200);
-
-      return newFront;
-    });
-  }, []);
-
-  return { refs, front, onEnded };
-}
+const YT_ID = 'LZ1Ekn33kiE';
 
 function Hero({ onNav }) {
-  const { refs, front, onEnded } = useVideoPlaylist();
+  const [playing, setPlaying] = useState(false);
+  const iframeRef = useRef(null);
+
+  useEffect(() => {
+    function attachPlayer() {
+      if (!iframeRef.current) return;
+      new window.YT.Player(iframeRef.current, {
+        events: {
+          onStateChange(e) {
+            if (e.data === window.YT.PlayerState.PLAYING) setPlaying(true);
+          }
+        }
+      });
+    }
+
+    if (window.YT && window.YT.Player) {
+      attachPlayer();
+    } else {
+      const prev = window.onYouTubeIframeAPIReady;
+      window.onYouTubeIframeAPIReady = () => {
+        if (typeof prev === 'function') prev();
+        attachPlayer();
+      };
+      if (!document.getElementById('yt-api-script')) {
+        const s = document.createElement('script');
+        s.id = 'yt-api-script';
+        s.src = 'https://www.youtube.com/iframe_api';
+        document.head.appendChild(s);
+      }
+    }
+  }, []);
 
   return (
     <section style={{ height:'100vh',minHeight:640,position:'relative',display:'flex',alignItems:'center',overflow:'hidden',background:'#060f08' }}>
-      {[0, 1].map(i => (
-        <video key={i} ref={refs[i]} muted playsInline autoPlay={i === 0} preload="auto" onEnded={() => onEnded(i)}
-          style={{ position:'absolute',inset:0,width:'100%',height:'100%',objectFit:'cover',objectPosition:'center',
-            opacity: i === front ? 1 : 0, transition:'opacity 1.4s ease', zIndex: i === front ? 1 : 0 }} />
-      ))}
+      <iframe
+        ref={iframeRef}
+        src={`https://www.youtube.com/embed/${YT_ID}?autoplay=1&mute=1&loop=1&playlist=${YT_ID}&controls=0&showinfo=0&rel=0&disablekb=1&fs=0&modestbranding=1&iv_load_policy=3&enablejsapi=1`}
+        allow="autoplay; fullscreen"
+        style={{ position:'absolute',top:'50%',left:'50%',
+          width:'100vw',height:'56.25vw',minHeight:'100%',minWidth:'177.78vh',
+          transform:'translateX(-50%) translateY(-50%)',
+          border:'none',pointerEvents:'none',zIndex:1,
+          opacity: playing ? 1 : 0, transition:'opacity 0.6s ease' }} />
       <div style={{ position:'absolute',inset:0,background:'linear-gradient(140deg,rgba(6,15,8,0.78) 0%,rgba(6,15,8,0.28) 100%)', zIndex:2 }} />
       <div className="gs-hero-content" style={{ position:'relative',zIndex:3,maxWidth:1280,margin:'0 auto',padding:'0 40px',width:'100%' }}>
         <div style={{ display:'flex',alignItems:'center',gap:12,marginBottom:22 }}>
