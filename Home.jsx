@@ -87,52 +87,15 @@ const STEPS = [
 ];
 
 /* ── Hero ──────────────────────────────────────────── */
-const YT_ID = 'LZ1Ekn33kiE';
+const VIDEO_SRC = 'https://github.com/tudiKnowsCode/concept-landscaping/releases/download/v1.0/1.mp4';
 
 function Hero({ onNav }) {
-  const [playing, setPlaying] = useState(false);
-  const iframeRef = useRef(null);
-
-  useEffect(() => {
-    function attachPlayer() {
-      if (!iframeRef.current) return;
-      new window.YT.Player(iframeRef.current, {
-        events: {
-          onStateChange(e) {
-            if (e.data === window.YT.PlayerState.PLAYING) setPlaying(true);
-          }
-        }
-      });
-    }
-
-    if (window.YT && window.YT.Player) {
-      attachPlayer();
-    } else {
-      const prev = window.onYouTubeIframeAPIReady;
-      window.onYouTubeIframeAPIReady = () => {
-        if (typeof prev === 'function') prev();
-        attachPlayer();
-      };
-      if (!document.getElementById('yt-api-script')) {
-        const s = document.createElement('script');
-        s.id = 'yt-api-script';
-        s.src = 'https://www.youtube.com/iframe_api';
-        document.head.appendChild(s);
-      }
-    }
-  }, []);
-
   return (
     <section style={{ height:'100vh',minHeight:640,position:'relative',display:'flex',alignItems:'center',overflow:'hidden',background:'#060f08' }}>
-      <iframe
-        ref={iframeRef}
-        src={`https://www.youtube.com/embed/${YT_ID}?autoplay=1&mute=1&loop=1&playlist=${YT_ID}&controls=0&showinfo=0&rel=0&disablekb=1&fs=0&modestbranding=1&iv_load_policy=3&enablejsapi=1`}
-        allow="autoplay; fullscreen"
-        style={{ position:'absolute',top:'50%',left:'50%',
-          width:'100vw',height:'56.25vw',minHeight:'100%',minWidth:'177.78vh',
-          transform:'translateX(-50%) translateY(-50%)',
-          border:'none',pointerEvents:'none',zIndex:1,
-          opacity: playing ? 1 : 0, transition:'opacity 0.6s ease' }} />
+      <video autoPlay muted loop playsInline
+        style={{ position:'absolute',inset:0,width:'100%',height:'100%',objectFit:'cover',objectPosition:'center',zIndex:1 }}>
+        <source src={VIDEO_SRC} type="video/mp4" />
+      </video>
       <div style={{ position:'absolute',inset:0,background:'linear-gradient(140deg,rgba(6,15,8,0.78) 0%,rgba(6,15,8,0.28) 100%)', zIndex:2 }} />
       <div className="gs-hero-content" style={{ position:'relative',zIndex:3,maxWidth:1280,margin:'0 auto',padding:'0 40px',width:'100%' }}>
         <div style={{ display:'flex',alignItems:'center',gap:12,marginBottom:22 }}>
